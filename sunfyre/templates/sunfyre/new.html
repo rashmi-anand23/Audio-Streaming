@@ -1,0 +1,45 @@
+{% extends 'sunfyre/basic.html' %}
+{% block title%} Songs  {%endblock%}
+
+{%block body%}
+
+{% if message%}
+<script>
+    Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: '{{message}}',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    </script>
+{% endif %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6" style = "padding-top: 3%; padding-left: 10%; padding-top: 15%; ">
+            <img src="/media/{{song.image}}" alt="" height="300px">
+        </div>
+        <div class="col-md-6" style = "padding-top: 15%;font-family:'Poppins';">
+            <h2 style="padding-top: 6%; font-weight: 550; "> {{song.name}}</h2>
+            
+            <h5 style="padding-top: 2%; font-weight: 550;">Album: {{song.movie}}</h5>
+            <h5 style="padding-top: 2%; font-weight: 550;">Artist: {{song.singer}}</h5>
+            <audio controls >
+                <source src="/media/{{song.song}}" type="audio/mp3">
+            </audio>
+            <div style="padding-top: 2%;">
+
+
+            <div class="row">
+            <form action="/sunfyre/watchlater" method="POST">{% csrf_token %}
+            <input type="hidden" name="video_id" value="{{song.song_id}}">
+            <button type="submit" class="btn btn-outline-secondary ">Add to Queue</button>
+            </form>
+            
+            <a href="/media/{{song.song}}" download><button class="btn btn-outline-secondary " >Download track</button></a>
+            </div>
+        </div>
+    
+    </div>
+</div>
+{%endblock%}

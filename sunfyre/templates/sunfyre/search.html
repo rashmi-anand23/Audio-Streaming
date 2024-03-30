@@ -1,0 +1,32 @@
+{% extends 'sunfyre/basic.html' %}
+{% block title%} Found:  {%endblock%}
+
+{%block body%}
+<div class = "container"style =  "padding-top: 3%; font-family:'Poppins';">
+
+  {% for i in songs reversed %}
+  <div class="card mb-3" style="max-width: 940px; padding-top: 0%;">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="/media/{{i.image}}" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title" style=" font-weight: 550;">{{i.name}}</h5>
+            <p class="card-text">{{i.singer}}</p>
+          <p class="card-text">Album: {{i.movie}}</p>
+          {% if user.is_authenticated %}
+          <form action="/sunfyre/history" method="POST">{% csrf_token %}
+            <input type="hidden" name="music_id" value="{{i.song_id}}">
+            <a href="/sunfyre/songs/{{i.song_id}}"><button class="btn btn-outline-secondary">Listen </button></a>
+          </form>
+          {% else %}
+          <a href="/sunfyre/songs/{{i.song_id}}"><button class="btn btn-outline-secondary">Listen</button></a>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{%endblock%}
